@@ -1,0 +1,35 @@
+{
+  "camera_config": "configs/camera_check.json",
+  "model_config": "configs/model_check.json",
+  "start_pose_m_m_rad": [0.75, 1.4, 0.0],
+  "settle_seconds": 1.0,
+  "encoder_rate_hz": 100.0,
+  "camera_rate_hz": 10.0,
+  "wheel_radius_m": 0.033,
+  "track_width_m": 0.288,
+  "encoder_noise": {"seed": 4101401, "motion_variance_rad2_per_rad": 0.001, "idle_variance_rad2_per_s": 0.000001},
+  "process": {"motion_variance_rad2_per_rad": 0.001, "idle_variance_rad2_per_s": 0.000001, "model_std_m_m_rad_per_sqrt_s": [0.003, 0.003, 0.015]},
+  "vision_R": {"independent_std_m_rad": [0.02, 0.004363323129985824], "common_std_m_rad": [0.01, 0.002617993877991494]},
+  "initialization_floor_std_m_m_rad": [0.005, 0.005, 0.008726646259971648],
+  "nis_limits": {"2": 9.210340371976184, "4": 13.276704135987622},
+  "phases": [
+    {"name": "forward_pair", "seconds": 4.0, "wheel_targets_rad_s": [3.0, 3.0], "visibility": "normal"},
+    {"name": "left_single_message", "seconds": 3.0, "wheel_targets_rad_s": [2.5, 3.5], "visibility": "drop_id18"},
+    {"name": "right_occluded", "seconds": 3.0, "wheel_targets_rad_s": [3.5, 2.5], "visibility": "physical_occluder"},
+    {"name": "forward_reacquired", "seconds": 3.0, "wheel_targets_rad_s": [3.0, 3.0], "visibility": "normal"},
+    {"name": "stop", "seconds": 1.0, "wheel_targets_rad_s": [0.0, 0.0], "visibility": "normal"}
+  ],
+  "occluder_world_m": [2.0, 1.1, 0.25],
+  "checks": {"max_tilt_rad": 0.1, "min_true_path_length_m": 0.2, "max_position_rmse_m": 0.08, "max_yaw_rmse_degrees": 5.0},
+  "synthetic_study": {"trials": 100, "seed_start": 4101500, "steps": 20, "dt_s": 0.1, "twist_m_s_rad_s": [0.08, 0.1], "initial_std_m_m_rad": [0.02, 0.02, 0.01], "encoder_idle_variance_rad2_per_s": 0.0001, "vision_independent_std_m_rad": [0.015, 0.003], "vision_common_std_m_rad": [0.005, 0.001], "nees_95_limit_3d": 7.814727903251179, "final_coverage_bounds": [0.8, 1.0], "mean_final_nees_bounds": [1.5, 4.5]},
+  "prediction_before_run": [
+    "An image-only pair initializes state and design covariance; the initialization frame is consumed once.",
+    "EKF and encoder-only baseline receive identical noisy encoder readings and the identical initial state/covariance.",
+    "ID18 messages are synthetically withheld during the single phase; actual RGB detections are retained separately.",
+    "A physical mocap board blocks camera views during the blackout; no stale measurements are reused.",
+    "Prediction-only covariance trace grows across blackout, and accepted fresh observations reduce covariance at reacquisition.",
+    "EKF is expected to reduce aggregate localization error relative to encoder-only propagation; actual metrics are reported even if this expectation fails."
+  ],
+  "parameter_basis": "Engineering design assumptions fixed before the run. Encoder noise follows the previously validated synthetic increment model. Model diffusion covers unresolved nominal kinematic error. Vision stds include independent and same-frame shared components, but are not empirical calibration and do not model all cross-frame biases. No added noise to images or range/bearing.",
+  "scope": "One new open-loop physical trajectory with sequential sensor processing; no state feedback, LiDAR navigation, docking or real-time wall-clock guarantee."
+}

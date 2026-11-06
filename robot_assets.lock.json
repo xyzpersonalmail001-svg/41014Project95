@@ -1,0 +1,19 @@
+{
+  "resource_commit": "d8344c0dbe7a00208d0301111523dde65efc174a",
+  "path_basis": "external/robotis_mujoco_menagerie/robotis_tb3",
+  "files_sha256": {
+    "assets/burger_base.stl": "7d7f3329a437b43bbcbbec59f9a2d1df1d88b59c3882c543d979baf73670f025",
+    "assets/lds.stl": "98f0bd7046159f83caab9509293112ef13534368535669124b91b5114c3132f6",
+    "assets/left_tire.stl": "578c9452ee51c2f71e5e6723b503d784e58a6ac317fa53ee308e645f204c8d6a",
+    "assets/right_tire.stl": "407aaf271ba7051c6186b220e1dc36b2a6eca688fced66a3347f49747b684596",
+    "assets/waffle_base.stl": "fcc85458c31f6c4bf2afdc93469128c49723189c5a4c07b8c91baebc132e9a0d",
+    "assets/waffle_pi_base.stl": "706230121a287ff953c4c84d344014a147fc27615b0e95221aaf04cb0dca7e42",
+    "LICENSE": "1eb85fc97224598dad1852b5d6483bbcf0aa8608790dcc657a5a2a761ae9c8c6",
+    "scene_turtlebot3_burger.xml": "a9ffd4ce04009bba3f60246403cdc81195dd97ea6a4f4694fc908895c351942b",
+    "scene_turtlebot3_waffle_pi.xml": "d985661637fb1155c57721a1ab6936bd424ad9155859c73e1f3edc839c1fe4e0",
+    "tb3_burger.png": "5f4381a903c47b497f7b49d0f7ef88637db89d1982841e56c0d6096aad0a3611",
+    "tb3_waffle_pi.png": "0c1140a78e5407188488cd236ac5fb7797d8628c4b878da1e62626d16efd3f54",
+    "turtlebot3_burger.xml": "ace08e8f6e40c7c03d0eb297d3f3222c4d581e887a9e375d8c59d529f7651774",
+    "turtlebot3_waffle_pi.xml": "72beffd7c802fbd2b45ac94f3ddb1266f8dfb3583102227d158db5201069e8f9"
+  }
+}

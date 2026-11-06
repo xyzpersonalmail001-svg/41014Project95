@@ -1,0 +1,31 @@
+{
+  "camera_config": "configs/camera_check.json",
+  "additional_markers": [
+    {"dictionary": "DICT_4X4_50", "id": 18, "side_length_m": 0.2, "quiet_margin_m": 0.025, "position_world_m": [2.85, 0.8, 0.25]}
+  ],
+  "wheel_radius_m": 0.033,
+  "track_width_m": 0.288,
+  "encoder_replay": "results/stage2/20261021T042535Z-703d0895",
+  "initial_pose": [-0.5, 0.3, 0.2],
+  "synthetic_trajectory": {"twist": [0.08, 0.1], "dt_s": 0.1, "steps": 40},
+  "gauge_rotation_rad": 0.4,
+  "rank_tolerance": 1e-8,
+  "finite_difference_step": 1e-6,
+  "jacobian_error_limit": 1e-7,
+  "pose_acceptance": {"position_m": 0.06, "yaw_degrees": 3.0, "baseline_relative_error": 0.25},
+  "image_cases": [
+    {"name": "pair_frontal", "base_xy_yaw": [0.75, 1.4, 0.0], "expected_ids": [17, 18]},
+    {"name": "pair_offset", "base_xy_yaw": [1.0, 0.9, 0.1], "expected_ids": [17, 18]},
+    {"name": "pair_rotated", "base_xy_yaw": [0.75, 1.4, -0.15], "expected_ids": [17, 18]},
+    {"name": "single_visible", "base_xy_yaw": [0.75, 1.4, 0.35], "expected_ids": [17]},
+    {"name": "both_lost", "base_xy_yaw": [0.75, 1.4, 3.141592653589793], "expected_ids": []}
+  ],
+  "prediction_before_run": [
+    "Rest linearization has controllability rank 2; constant straight moving reference has rank 3; nonlinear forward/spin Lie bracket supplies the lateral direction.",
+    "One fixed point's range/bearing has a global rotation ambiguity, including across known-input motion; two distinct known points have rank 3 when both are observed.",
+    "An added ID 18 at 0.6 m baseline should allow same-frame geometry initialization from actual images within 0.06 m and 3 degrees in declared pair cases.",
+    "A single detection or no detection must not generate a full pose initialization."
+  ],
+  "random_seed": null,
+  "scope": "Reduced kinematic model and static image geometry; no EKF, controller or new physical trajectory. Rank calculations use metres and radians with a fixed absolute numerical tolerance, not a noise-calibrated accuracy claim."
+}

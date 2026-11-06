@@ -1,0 +1,195 @@
+{
+  "status": "complete",
+  "overall": {
+    "planned": 24,
+    "attempted": 24,
+    "pending": 0,
+    "successes": 24,
+    "outcome_counts": {
+      "success": 24
+    },
+    "empirical_fraction": 1.0,
+    "wilson_95": null
+  },
+  "cells": [
+    {
+      "condition_id": "nominal",
+      "start_id": "start_A",
+      "planned": 3,
+      "attempted": 3,
+      "pending": 0,
+      "successes": 3,
+      "outcome_counts": {
+        "success": 3
+      },
+      "empirical_fraction": 1.0,
+      "wilson_95": [
+        0.4385029682449546,
+        1.0
+      ]
+    },
+    {
+      "condition_id": "nominal",
+      "start_id": "start_B",
+      "planned": 3,
+      "attempted": 3,
+      "pending": 0,
+      "successes": 3,
+      "outcome_counts": {
+        "success": 3
+      },
+      "empirical_fraction": 1.0,
+      "wilson_95": [
+        0.4385029682449546,
+        1.0
+      ]
+    },
+    {
+      "condition_id": "appearing_obstacle",
+      "start_id": "start_A",
+      "planned": 3,
+      "attempted": 3,
+      "pending": 0,
+      "successes": 3,
+      "outcome_counts": {
+        "success": 3
+      },
+      "empirical_fraction": 1.0,
+      "wilson_95": [
+        0.4385029682449546,
+        1.0
+      ]
+    },
+    {
+      "condition_id": "appearing_obstacle",
+      "start_id": "start_B",
+      "planned": 3,
+      "attempted": 3,
+      "pending": 0,
+      "successes": 3,
+      "outcome_counts": {
+        "success": 3
+      },
+      "empirical_fraction": 1.0,
+      "wilson_95": [
+        0.4385029682449546,
+        1.0
+      ]
+    },
+    {
+      "condition_id": "dock_visual_blackout",
+      "start_id": "start_A",
+      "planned": 3,
+      "attempted": 3,
+      "pending": 0,
+      "successes": 3,
+      "outcome_counts": {
+        "success": 3
+      },
+      "empirical_fraction": 1.0,
+      "wilson_95": [
+        0.4385029682449546,
+        1.0
+      ]
+    },
+    {
+      "condition_id": "dock_visual_blackout",
+      "start_id": "start_B",
+      "planned": 3,
+      "attempted": 3,
+      "pending": 0,
+      "successes": 3,
+      "outcome_counts": {
+        "success": 3
+      },
+      "empirical_fraction": 1.0,
+      "wilson_95": [
+        0.4385029682449546,
+        1.0
+      ]
+    },
+    {
+      "condition_id": "encoder_noise_x4",
+      "start_id": "start_A",
+      "planned": 3,
+      "attempted": 3,
+      "pending": 0,
+      "successes": 3,
+      "outcome_counts": {
+        "success": 3
+      },
+      "empirical_fraction": 1.0,
+      "wilson_95": [
+        0.4385029682449546,
+        1.0
+      ]
+    },
+    {
+      "condition_id": "encoder_noise_x4",
+      "start_id": "start_B",
+      "planned": 3,
+      "attempted": 3,
+      "pending": 0,
+      "successes": 3,
+      "outcome_counts": {
+        "success": 3
+      },
+      "empirical_fraction": 1.0,
+      "wilson_95": [
+        0.4385029682449546,
+        1.0
+      ]
+    }
+  ],
+  "conditions": [
+    {
+      "condition_id": "nominal",
+      "planned": 6,
+      "attempted": 6,
+      "pending": 0,
+      "successes": 6,
+      "outcome_counts": {
+        "success": 6
+      },
+      "empirical_fraction": 1.0,
+      "wilson_95": null
+    },
+    {
+      "condition_id": "appearing_obstacle",
+      "planned": 6,
+      "attempted": 6,
+      "pending": 0,
+      "successes": 6,
+      "outcome_counts": {
+        "success": 6
+      },
+      "empirical_fraction": 1.0,
+      "wilson_95": null
+    },
+    {
+      "condition_id": "dock_visual_blackout",
+      "planned": 6,
+      "attempted": 6,
+      "pending": 0,
+      "successes": 6,
+      "outcome_counts": {
+        "success": 6
+      },
+      "empirical_fraction": 1.0,
+      "wilson_95": null
+    },
+    {
+      "condition_id": "encoder_noise_x4",
+      "planned": 6,
+      "attempted": 6,
+      "pending": 0,
+      "successes": 6,
+      "outcome_counts": {
+        "success": 6
+      },
+      "empirical_fraction": 1.0,
+      "wilson_95": null
+    }
+  ],
+  "interpretation": "Wilson intervals only for identical fixed condition/start cells, under independent Bernoulli simulation-noise assumptions. Approximate and wide with n=3. Condition and total fractions describe this balanced finite matrix only; not general or real-world reliability."
+}

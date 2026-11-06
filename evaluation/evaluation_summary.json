@@ -1,0 +1,182 @@
+{
+  "ekf": {
+    "ekf": {
+      "position_rmse_m": 0.005437935342752294,
+      "yaw_rmse_degrees": 0.6198549232073598,
+      "final_position_error_m": 0.0035856039415458406,
+      "final_yaw_error_degrees": -0.08092739337540128
+    },
+    "encoder_only": {
+      "position_rmse_m": 0.013410262229224775,
+      "yaw_rmse_degrees": 0.8498112004148617,
+      "final_position_error_m": 0.016126522071973137,
+      "final_yaw_error_degrees": -1.2763793248213267
+    }
+  },
+  "tracking": {
+    "feedforward_only": {
+      "position_rmse_m": 0.5337096237217002,
+      "yaw_rmse_degrees": 2.7485287560103595,
+      "final_position_error_m": 0.8291470884010761,
+      "final_yaw_error_degrees": 2.2906229372331075
+    },
+    "wheel_PI_only": {
+      "position_rmse_m": 0.06528547923705531,
+      "yaw_rmse_degrees": 2.813145787797558,
+      "final_position_error_m": 0.07765590040635603,
+      "final_yaw_error_degrees": 2.669271826760488
+    },
+    "pose_feedback": {
+      "position_rmse_m": 0.01920044791448838,
+      "yaw_rmse_degrees": 2.914216202679011,
+      "final_position_error_m": 0.004136129306787136,
+      "final_yaw_error_degrees": 0.11091812516450543
+    }
+  },
+  "camera": [
+    {
+      "station_x_separation_m": 0.55,
+      "valid": 9,
+      "position_RMSE_mm": 0.5873826412283479,
+      "max_position_error_mm": 0.8815359256370857,
+      "max_abs_yaw_error_degrees": 0.061985825151588306
+    },
+    {
+      "station_x_separation_m": 0.85,
+      "valid": 9,
+      "position_RMSE_mm": 4.3575103037021705,
+      "max_position_error_mm": 7.651044709805904,
+      "max_abs_yaw_error_degrees": 0.48716158118157704
+    },
+    {
+      "station_x_separation_m": 1.3,
+      "valid": 9,
+      "position_RMSE_mm": 16.256692600250613,
+      "max_position_error_mm": 27.26389205779236,
+      "max_abs_yaw_error_degrees": 1.1855529308599073
+    },
+    {
+      "station_x_separation_m": 2.0,
+      "valid": 9,
+      "position_RMSE_mm": 43.83782201441203,
+      "max_position_error_mm": 75.28574446053953,
+      "max_abs_yaw_error_degrees": 2.140453939697633
+    }
+  ],
+  "filter_replay": {
+    "saved_summary_rows": 15,
+    "scope": "Replot only; no estimator replay or closed-loop task is executed."
+  },
+  "gain": [
+    {
+      "variant": "rho_half",
+      "k_rho_per_s": 0.125,
+      "terminal_seconds": 52.85000000000001,
+      "final_position_error_m": 0.011564043403284274,
+      "final_yaw_error_degrees": 0.40475234641142277
+    },
+    {
+      "variant": "nominal",
+      "k_rho_per_s": 0.25,
+      "terminal_seconds": 33.849999999999994,
+      "final_position_error_m": 0.0116110560773921,
+      "final_yaw_error_degrees": 0.19079453269957528
+    },
+    {
+      "variant": "rho_double",
+      "k_rho_per_s": 0.5,
+      "terminal_seconds": 28.150000000000006,
+      "final_position_error_m": 0.01168881404088071,
+      "final_yaw_error_degrees": 0.9948883683092541
+    }
+  ],
+  "recovery": {
+    "original": {
+      "outcome": "timeout",
+      "position_localization_rmse_m": 0.1198946766860899,
+      "final_position_error_m": 1.0113904202884945,
+      "final_yaw_error_degrees": 2.4635968260594328,
+      "elapsed_seconds": 180.0,
+      "min_signed_geom_clearance_m": 0.18277749766728232
+    },
+    "v1": {
+      "outcome": "timeout",
+      "position_localization_rmse_m": 0.04837139087146478,
+      "final_position_error_m": 1.0963996840461376,
+      "final_yaw_error_degrees": 8.139981839129943,
+      "elapsed_seconds": 180.0,
+      "min_signed_geom_clearance_m": 0.20858822705944483
+    },
+    "v2": {
+      "outcome": "success",
+      "position_localization_rmse_m": 0.05765131040385936,
+      "final_position_error_m": 0.0116110560773921,
+      "final_yaw_error_degrees": 0.19079453269957528,
+      "elapsed_seconds": 119.05,
+      "min_signed_geom_clearance_m": 0.17574475340784612
+    }
+  },
+  "final_batch": {
+    "attempted": 24,
+    "successes": 24,
+    "cells": [
+      {
+        "condition_id": "nominal",
+        "start_id": "start_A",
+        "successes": 3,
+        "attempted": 3
+      },
+      {
+        "condition_id": "nominal",
+        "start_id": "start_B",
+        "successes": 3,
+        "attempted": 3
+      },
+      {
+        "condition_id": "appearing_obstacle",
+        "start_id": "start_A",
+        "successes": 3,
+        "attempted": 3
+      },
+      {
+        "condition_id": "appearing_obstacle",
+        "start_id": "start_B",
+        "successes": 3,
+        "attempted": 3
+      },
+      {
+        "condition_id": "dock_visual_blackout",
+        "start_id": "start_A",
+        "successes": 3,
+        "attempted": 3
+      },
+      {
+        "condition_id": "dock_visual_blackout",
+        "start_id": "start_B",
+        "successes": 3,
+        "attempted": 3
+      },
+      {
+        "condition_id": "encoder_noise_x4",
+        "start_id": "start_A",
+        "successes": 3,
+        "attempted": 3
+      },
+      {
+        "condition_id": "encoder_noise_x4",
+        "start_id": "start_B",
+        "successes": 3,
+        "attempted": 3
+      }
+    ],
+    "final_position_min_m": 0.006052316959472726,
+    "final_position_max_m": 0.012041336861837393,
+    "max_abs_final_yaw_degrees": 1.495362880520269,
+    "elapsed_min_seconds": 48.7,
+    "elapsed_max_seconds": 113.3,
+    "max_localization_rmse_m": 0.0951901716270723,
+    "saved_obstacle_contact_steps_sum": 0,
+    "scope": "Aggregate the supplied evaluation/E_Integration_Robustness/data/trial_metrics.csv only. Preserve all 24 first attempts. Success labels and collision counts come from original evaluations, not independent raw-log reauditing. Not general reliability or a new experiment."
+  },
+  "scope": "Offline reanalysis of saved data. No new experiments, reliability samples or robot algorithm changes."
+}

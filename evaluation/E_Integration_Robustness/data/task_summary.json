@@ -1,0 +1,92 @@
+{
+  "evaluated_runtime_commit": "445104d5b4b851a798d840c8a343b296dd2e627c",
+  "platform": "Windows x64, same computer, independent empty-directory Python environment",
+  "python_version": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+  "seed": 4101901,
+  "cases": [
+    {
+      "case": "normal_room",
+      "label": "普通房间",
+      "passed": true,
+      "metrics": {
+        "final_position_error_m": 0.011620434836999812,
+        "final_yaw_error_degrees": -0.7996928172257444,
+        "position_localization_rmse_m": 0.00346472873961391,
+        "actual_path_length_m": 1.5689328644358431,
+        "elapsed_seconds": 48.800000000000004,
+        "min_signed_geom_clearance_m": 0.47631129090401014,
+        "stop_tail_max_true_speed_m_s": 6.975836668869875e-07,
+        "stop_tail_max_true_yaw_rate_rad_s": 3.159812681235505e-06,
+        "max_abs_actuator_command_rad_s": 3.736032111405037,
+        "obstacle_contact_physics_steps": 0,
+        "planning_events": 1,
+        "successful_plans": 1,
+        "max_true_y_m": 1.4004230696279343,
+        "max_estimated_y_m": 1.4005916008024424,
+        "docking_handoff_elapsed_s": 36.45,
+        "terminal_seconds": 12.350000000000001
+      },
+      "physics_steps": 24900,
+      "encoder_samples": 4881,
+      "camera_frames": 489
+    },
+    {
+      "case": "appearing_obstacle",
+      "label": "新增挡板",
+      "passed": true,
+      "metrics": {
+        "final_position_error_m": 0.011689582451736838,
+        "final_yaw_error_degrees": 0.07421665917206924,
+        "position_localization_rmse_m": 0.09895586052069752,
+        "actual_path_length_m": 2.461811101464998,
+        "elapsed_seconds": 99.75,
+        "min_signed_geom_clearance_m": 0.24265088842094842,
+        "stop_tail_max_true_speed_m_s": 1.0167818571271313e-06,
+        "stop_tail_max_true_yaw_rate_rad_s": 3.5333442929654054e-08,
+        "max_abs_actuator_command_rad_s": 5.452266868372116,
+        "obstacle_contact_physics_steps": 0,
+        "planning_events": 20,
+        "successful_plans": 20,
+        "max_true_y_m": 1.9083583490448428,
+        "max_estimated_y_m": 2.0740610269804307,
+        "docking_handoff_elapsed_s": 64.7,
+        "terminal_seconds": 35.05
+      },
+      "physics_steps": 50375,
+      "encoder_samples": 9976,
+      "camera_frames": 998
+    },
+    {
+      "case": "dock_visual_blackout",
+      "label": "末端视觉遮挡",
+      "passed": true,
+      "metrics": {
+        "final_position_error_m": 0.011785107965664798,
+        "final_yaw_error_degrees": -0.5047860903165196,
+        "position_localization_rmse_m": 0.0034211823548170495,
+        "actual_path_length_m": 1.5687583194399486,
+        "elapsed_seconds": 49.550000000000004,
+        "min_signed_geom_clearance_m": 0.2695250230297592,
+        "stop_tail_max_true_speed_m_s": 2.2981899520857743e-07,
+        "stop_tail_max_true_yaw_rate_rad_s": 1.2150117849888756e-06,
+        "max_abs_actuator_command_rad_s": 3.736032111405037,
+        "obstacle_contact_physics_steps": 0,
+        "planning_events": 1,
+        "successful_plans": 1,
+        "max_true_y_m": 1.400282136269636,
+        "max_estimated_y_m": 1.400415570284209,
+        "docking_handoff_elapsed_s": 36.45,
+        "terminal_seconds": 13.100000000000001
+      },
+      "physics_steps": 25275,
+      "encoder_samples": 4956,
+      "camera_frames": 496
+    }
+  ],
+  "scope": "Repeated demonstration in a same-machine fresh environment; not new reliability samples.",
+  "limits": [
+    "Working OpenGL required; cross-platform/driver portability not established.",
+    "Design covariance remains uncalibrated; appearing-obstacle localization RMSE is retained.",
+    "Non-contact pose docking, without electrical charging."
+  ]
+}

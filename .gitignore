@@ -1,0 +1,6 @@
+/.venv*/
+/external/
+/results/
+/.tmp/
+__pycache__/
+*.py[cod]

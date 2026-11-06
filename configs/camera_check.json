@@ -1,0 +1,26 @@
+{
+  "lidar_config": "configs/lidar_check.json",
+  "camera": {"name": "front_camera", "width": 960, "height": 720, "fovy_degrees": 60.0, "position_in_base_m": [0.1, 0.0, 0.12]},
+  "marker": {"dictionary": "DICT_4X4_50", "id": 17, "side_length_m": 0.2, "quiet_margin_m": 0.025, "position_world_m": [2.85, 1.4, 0.25]},
+  "quality": {"max_reprojection_rmse_px": 1.5, "min_marker_side_px": 20.0, "range_min_m": 0.25, "range_max_m": 5.0},
+  "acceptance": {"range_error_m": 0.06, "bearing_error_degrees": 1.0, "corner_rmse_px": 2.0},
+  "cases": [
+    {"name": "frontal_camera_2m", "base_xy_yaw": [0.75, 1.4, 0.0], "expect_detection": true},
+    {"name": "near_camera_1m", "base_xy_yaw": [1.75, 1.4, 0.0], "expect_detection": true},
+    {"name": "offset_left", "base_xy_yaw": [1.0, 0.9, 0.1], "expect_detection": true},
+    {"name": "offset_right", "base_xy_yaw": [1.0, 1.8, -0.1], "expect_detection": true},
+    {"name": "rotated_view", "base_xy_yaw": [0.75, 1.4, 0.35], "expect_detection": true},
+    {"name": "fully_occluded", "base_xy_yaw": [0.75, 1.4, 0.0], "occluded": true, "expect_detection": false},
+    {"name": "out_of_view", "base_xy_yaw": [0.75, 1.4, 3.141592653589793], "expect_detection": false}
+  ],
+  "prediction_before_run": [
+    "The 0.2 m black-border marker should be detected in the five declared visible cases; fully occluded and behind-camera cases must produce no observation.",
+    "The frontal camera depth is 2 m or 1 m, but the marker range from the base is 2.1 m or 1.1 m because camera mounting translation is 0.1 m forward.",
+    "OpenCV camera axes are right/down/forward; MuJoCo render camera axes are right/up/backward. Ignoring their sign change reverses vertical and forward directions.",
+    "Image quantization and corner localization produce nonzero measurement error even with no deliberately added sensor noise."
+  ],
+  "calibration_basis": "Ideal camera intrinsics derived from configured vertical FOV and resolution, zero lens distortion, known project mounting; verified in simulation, not real camera calibration.",
+  "noise": "No extra noise, blur or dropout injection; actual rendering and corner detection errors retained.",
+  "random_seed": null,
+  "scope": "Static perception validation with fixture poses; no EKF or docking controller. Public vision code receives RGB and fixed calibration, never simulator pose."
+}

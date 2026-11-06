@@ -1,0 +1,1178 @@
+{
+  "schema_version": 1,
+  "purpose": "Numeric subsets of saved experiments for offline metrics and figures.",
+  "extraction": "All selected time samples retained, without smoothing, interpolation or downsampling. CSV numbers preserve Python float round trips. No physics or new trials executed.",
+  "units": "World positions in metres; angles in radians unless column says degrees; elapsed times in simulation seconds. True states are evaluation data only.",
+  "metric_definitions": {
+    "position_rmse_m": "sqrt(mean((estimate_x-truth_x)^2 + (estimate_y-truth_y)^2))",
+    "tracking_position_rmse_m": "sqrt(mean((truth_x-reference_x)^2 + (truth_y-reference_y)^2)) at the same timestamp",
+    "yaw_rmse_degrees": "degrees(sqrt(mean(wrap(yaw_difference)^2)))",
+    "wrap": "(angle + pi) modulo (2*pi) minus pi",
+    "uncertainty": "Per-coordinate +/-2 sqrt(P_ii); uncalibrated design covariance, not an empirically calibrated confidence interval."
+  },
+  "ekf": {
+    "source_run": "results/stage4_ekf/20261022T091108Z-c397cce8",
+    "encoder_seed": 4101401,
+    "scope": "One 14 s early estimator-module physical run, with same-input encoder baseline. No navigation or docking; not final-task performance or independent repeated trials.",
+    "phases": {
+      "single_message_withheld_s": [
+        4,
+        7
+      ],
+      "physical_occlusion_s": [
+        7,
+        10
+      ]
+    },
+    "camera_config": {
+      "lidar_config": "configs/lidar_check.json",
+      "camera": {
+        "name": "front_camera",
+        "width": 960,
+        "height": 720,
+        "fovy_degrees": 60.0,
+        "position_in_base_m": [
+          0.1,
+          0.0,
+          0.12
+        ]
+      },
+      "marker": {
+        "dictionary": "DICT_4X4_50",
+        "id": 17,
+        "side_length_m": 0.2,
+        "quiet_margin_m": 0.025,
+        "position_world_m": [
+          2.85,
+          1.4,
+          0.25
+        ]
+      },
+      "quality": {
+        "max_reprojection_rmse_px": 1.5,
+        "min_marker_side_px": 20.0,
+        "range_min_m": 0.25,
+        "range_max_m": 5.0
+      },
+      "acceptance": {
+        "range_error_m": 0.06,
+        "bearing_error_degrees": 1.0,
+        "corner_rmse_px": 2.0
+      },
+      "cases": [
+        {
+          "name": "frontal_camera_2m",
+          "base_xy_yaw": [
+            0.75,
+            1.4,
+            0.0
+          ],
+          "expect_detection": true
+        },
+        {
+          "name": "near_camera_1m",
+          "base_xy_yaw": [
+            1.75,
+            1.4,
+            0.0
+          ],
+          "expect_detection": true
+        },
+        {
+          "name": "offset_left",
+          "base_xy_yaw": [
+            1.0,
+            0.9,
+            0.1
+          ],
+          "expect_detection": true
+        },
+        {
+          "name": "offset_right",
+          "base_xy_yaw": [
+            1.0,
+            1.8,
+            -0.1
+          ],
+          "expect_detection": true
+        },
+        {
+          "name": "rotated_view",
+          "base_xy_yaw": [
+            0.75,
+            1.4,
+            0.35
+          ],
+          "expect_detection": true
+        },
+        {
+          "name": "fully_occluded",
+          "base_xy_yaw": [
+            0.75,
+            1.4,
+            0.0
+          ],
+          "occluded": true,
+          "expect_detection": false
+        },
+        {
+          "name": "out_of_view",
+          "base_xy_yaw": [
+            0.75,
+            1.4,
+            3.141592653589793
+          ],
+          "expect_detection": false
+        }
+      ],
+      "prediction_before_run": [
+        "The 0.2 m black-border marker should be detected in the five declared visible cases; fully occluded and behind-camera cases must produce no observation.",
+        "The frontal camera depth is 2 m or 1 m, but the marker range from the base is 2.1 m or 1.1 m because camera mounting translation is 0.1 m forward.",
+        "OpenCV camera axes are right/down/forward; MuJoCo render camera axes are right/up/backward. Ignoring their sign change reverses vertical and forward directions.",
+        "Image quantization and corner localization produce nonzero measurement error even with no deliberately added sensor noise."
+      ],
+      "calibration_basis": "Ideal camera intrinsics derived from configured vertical FOV and resolution, zero lens distortion, known project mounting; verified in simulation, not real camera calibration.",
+      "noise": "No extra noise, blur or dropout injection; actual rendering and corner detection errors retained.",
+      "random_seed": null,
+      "scope": "Static perception validation with fixture poses; no EKF or docking controller. Public vision code receives RGB and fixed calibration, never simulator pose.",
+      "additional_markers": [
+        {
+          "dictionary": "DICT_4X4_50",
+          "id": 18,
+          "side_length_m": 0.2,
+          "quiet_margin_m": 0.025,
+          "position_world_m": [
+            2.85,
+            0.8,
+            0.25
+          ]
+        }
+      ]
+    },
+    "filter_config": {
+      "camera_config": "configs/camera_check.json",
+      "model_config": "configs/model_check.json",
+      "start_pose_m_m_rad": [
+        0.75,
+        1.4,
+        0.0
+      ],
+      "settle_seconds": 1.0,
+      "encoder_rate_hz": 100.0,
+      "camera_rate_hz": 10.0,
+      "wheel_radius_m": 0.033,
+      "track_width_m": 0.288,
+      "encoder_noise": {
+        "seed": 4101401,
+        "motion_variance_rad2_per_rad": 0.001,
+        "idle_variance_rad2_per_s": 1e-06
+      },
+      "process": {
+        "motion_variance_rad2_per_rad": 0.001,
+        "idle_variance_rad2_per_s": 1e-06,
+        "model_std_m_m_rad_per_sqrt_s": [
+          0.003,
+          0.003,
+          0.015
+        ]
+      },
+      "vision_R": {
+        "independent_std_m_rad": [
+          0.02,
+          0.004363323129985824
+        ],
+        "common_std_m_rad": [
+          0.01,
+          0.002617993877991494
+        ]
+      },
+      "initialization_floor_std_m_m_rad": [
+        0.005,
+        0.005,
+        0.008726646259971648
+      ],
+      "nis_limits": {
+        "2": 9.210340371976184,
+        "4": 13.276704135987622
+      },
+      "phases": [
+        {
+          "name": "forward_pair",
+          "seconds": 4.0,
+          "wheel_targets_rad_s": [
+            3.0,
+            3.0
+          ],
+          "visibility": "normal"
+        },
+        {
+          "name": "left_single_message",
+          "seconds": 3.0,
+          "wheel_targets_rad_s": [
+            2.5,
+            3.5
+          ],
+          "visibility": "drop_id18"
+        },
+        {
+          "name": "right_occluded",
+          "seconds": 3.0,
+          "wheel_targets_rad_s": [
+            3.5,
+            2.5
+          ],
+          "visibility": "physical_occluder"
+        },
+        {
+          "name": "forward_reacquired",
+          "seconds": 3.0,
+          "wheel_targets_rad_s": [
+            3.0,
+            3.0
+          ],
+          "visibility": "normal"
+        },
+        {
+          "name": "stop",
+          "seconds": 1.0,
+          "wheel_targets_rad_s": [
+            0.0,
+            0.0
+          ],
+          "visibility": "normal"
+        }
+      ],
+      "occluder_world_m": [
+        2.0,
+        1.1,
+        0.25
+      ],
+      "checks": {
+        "max_tilt_rad": 0.1,
+        "min_true_path_length_m": 0.2,
+        "max_position_rmse_m": 0.08,
+        "max_yaw_rmse_degrees": 5.0
+      },
+      "synthetic_study": {
+        "trials": 100,
+        "seed_start": 4101500,
+        "steps": 20,
+        "dt_s": 0.1,
+        "twist_m_s_rad_s": [
+          0.08,
+          0.1
+        ],
+        "initial_std_m_m_rad": [
+          0.02,
+          0.02,
+          0.01
+        ],
+        "encoder_idle_variance_rad2_per_s": 0.0001,
+        "vision_independent_std_m_rad": [
+          0.015,
+          0.003
+        ],
+        "vision_common_std_m_rad": [
+          0.005,
+          0.001
+        ],
+        "nees_95_limit_3d": 7.814727903251179,
+        "final_coverage_bounds": [
+          0.8,
+          1.0
+        ],
+        "mean_final_nees_bounds": [
+          1.5,
+          4.5
+        ]
+      },
+      "prediction_before_run": [
+        "An image-only pair initializes state and design covariance; the initialization frame is consumed once.",
+        "EKF and encoder-only baseline receive identical noisy encoder readings and the identical initial state/covariance.",
+        "ID18 messages are synthetically withheld during the single phase; actual RGB detections are retained separately.",
+        "A physical mocap board blocks camera views during the blackout; no stale measurements are reused.",
+        "Prediction-only covariance trace grows across blackout, and accepted fresh observations reduce covariance at reacquisition.",
+        "EKF is expected to reduce aggregate localization error relative to encoder-only propagation; actual metrics are reported even if this expectation fails."
+      ],
+      "parameter_basis": "Engineering design assumptions fixed before the run. Encoder noise follows the previously validated synthetic increment model. Model diffusion covers unresolved nominal kinematic error. Vision stds include independent and same-frame shared components, but are not empirical calibration and do not model all cross-frame biases. No added noise to images or range/bearing.",
+      "scope": "One new open-loop physical trajectory with sequential sensor processing; no state feedback, LiDAR navigation, docking or real-time wall-clock guarantee."
+    },
+    "saved_metrics": {
+      "ekf": {
+        "position_rmse_m": 0.005437935342752294,
+        "yaw_rmse_degrees": 0.6198549232073598,
+        "final_position_error_m": 0.0035856039415458406,
+        "final_yaw_error_degrees": -0.08092739337540128
+      },
+      "encoder_only": {
+        "position_rmse_m": 0.013410262229224775,
+        "yaw_rmse_degrees": 0.8498112004148617,
+        "final_position_error_m": 0.016126522071973137,
+        "final_yaw_error_degrees": -1.2763793248213267
+      }
+    },
+    "uncertainty_limit": "One time-correlated physical run and uncalibrated design Q/R; coverage is descriptive, not proof of confidence calibration. Trace sums m² and rad² only as a fixed-coordinate diagnostic."
+  },
+  "tracking": {
+    "source_run": "results/stage5_tracking/20261022T093223Z-158cb35d",
+    "scope": "State-feedback trajectory module with three physical mode comparisons, normal camera visibility. No LiDAR obstacle avoidance, charging-station terminal pose regulation, full-task success rate or new-environment validation.",
+    "comparison": "Same initial physical setup and seed 4101701, but different controls create different motion and increment-dependent noise; not identical-input replay.",
+    "config": {
+      "ekf_config": "configs/ekf_check.json",
+      "initial_true_pose_m_m_rad": [
+        0.72,
+        1.36,
+        0.04
+      ],
+      "reference_initial_pose_m_m_rad": [
+        0.75,
+        1.4,
+        0.0
+      ],
+      "reference_segments": [
+        {
+          "name": "ramp",
+          "seconds": 2.0,
+          "v_start_m_s": 0.0,
+          "v_end_m_s": 0.04,
+          "omega_rad_s": 0.0
+        },
+        {
+          "name": "straight",
+          "seconds": 6.0,
+          "v_start_m_s": 0.04,
+          "v_end_m_s": 0.04,
+          "omega_rad_s": 0.0
+        },
+        {
+          "name": "left_arc",
+          "seconds": 4.0,
+          "v_start_m_s": 0.04,
+          "v_end_m_s": 0.04,
+          "omega_rad_s": 0.04
+        },
+        {
+          "name": "right_arc",
+          "seconds": 4.0,
+          "v_start_m_s": 0.04,
+          "v_end_m_s": 0.04,
+          "omega_rad_s": -0.04
+        },
+        {
+          "name": "straight_after",
+          "seconds": 4.0,
+          "v_start_m_s": 0.04,
+          "v_end_m_s": 0.04,
+          "omega_rad_s": 0.0
+        },
+        {
+          "name": "brake",
+          "seconds": 2.0,
+          "v_start_m_s": 0.04,
+          "v_end_m_s": 0.0,
+          "omega_rad_s": 0.0
+        },
+        {
+          "name": "stop",
+          "seconds": 2.0,
+          "v_start_m_s": 0.0,
+          "v_end_m_s": 0.0,
+          "omega_rad_s": 0.0,
+          "stop": true
+        }
+      ],
+      "control_rate_hz": 20.0,
+      "gains": {
+        "kx_per_s": 0.9,
+        "ky_per_m2": 120.0,
+        "ktheta_per_s": 1.4
+      },
+      "limits": {
+        "body_v_m_s": 0.08,
+        "body_omega_rad_s": 0.35,
+        "desired_wheel_rad_s": 2.2
+      },
+      "wheel_PI": {
+        "kp": 0.6,
+        "ki_per_s": 5.0,
+        "rate_filter_tau_s": 0.08,
+        "actuator_limit_rad_s": 7.88
+      },
+      "encoder_seed": 4101701,
+      "modes": [
+        {
+          "name": "feedforward_only",
+          "pose_feedback": false,
+          "wheel_PI": false
+        },
+        {
+          "name": "wheel_PI_only",
+          "pose_feedback": false,
+          "wheel_PI": true
+        },
+        {
+          "name": "pose_feedback",
+          "pose_feedback": true,
+          "wheel_PI": true
+        }
+      ],
+      "checks": {
+        "max_feedback_position_rmse_m": 0.035,
+        "max_feedback_final_position_m": 0.025,
+        "max_feedback_final_yaw_degrees": 3.0,
+        "max_base_tilt_rad": 0.1,
+        "stop_tail_seconds": 0.5,
+        "max_stop_true_speed_m_s": 0.005,
+        "max_stop_true_yaw_rate_rad_s": 0.02
+      },
+      "prediction_before_run": [
+        "Nominal wheel targets without wheel PI should undershoot the moving reference, consistent with previous wheel response checks.",
+        "Wheel PI should reduce persistent wheel-speed error, but without pose feedback it cannot correct the deliberate initial global position offset.",
+        "Estimated-pose feedback plus the same wheel PI is expected to reduce path error and end within 25 mm; actual metrics and every failed attempt will be retained.",
+        "All three runs use the same initial physical setup and PCG64 seed, but different controls create different trajectories and measured encoder variances. They are not identical-input estimator replays.",
+        "The final stop segment sends exact zero actuator targets and resets PI integral; stopping is evaluated from independent physical speed, not just the issued command."
+      ],
+      "parameter_basis": "Positive nonlinear body-error feedback gains selected before physical trials; actuator limit from the fixed official model, desired wheel limit reserves control authority. Wheel PI addresses observed target/actual speed mismatch, using filtered noisy encoder increments only. No fitting to evaluation truth; formal kinematic stability argument excludes input saturation, actuator lag and estimation errors.",
+      "scope": "State-feedback trajectory module with three physical mode comparisons, normal camera visibility. No LiDAR obstacle avoidance, charging-station terminal pose regulation, full-task success rate or new-environment validation."
+    },
+    "camera_config": {
+      "lidar_config": "configs/lidar_check.json",
+      "camera": {
+        "name": "front_camera",
+        "width": 960,
+        "height": 720,
+        "fovy_degrees": 60.0,
+        "position_in_base_m": [
+          0.1,
+          0.0,
+          0.12
+        ]
+      },
+      "marker": {
+        "dictionary": "DICT_4X4_50",
+        "id": 17,
+        "side_length_m": 0.2,
+        "quiet_margin_m": 0.025,
+        "position_world_m": [
+          2.85,
+          1.4,
+          0.25
+        ]
+      },
+      "quality": {
+        "max_reprojection_rmse_px": 1.5,
+        "min_marker_side_px": 20.0,
+        "range_min_m": 0.25,
+        "range_max_m": 5.0
+      },
+      "acceptance": {
+        "range_error_m": 0.06,
+        "bearing_error_degrees": 1.0,
+        "corner_rmse_px": 2.0
+      },
+      "cases": [
+        {
+          "name": "frontal_camera_2m",
+          "base_xy_yaw": [
+            0.75,
+            1.4,
+            0.0
+          ],
+          "expect_detection": true
+        },
+        {
+          "name": "near_camera_1m",
+          "base_xy_yaw": [
+            1.75,
+            1.4,
+            0.0
+          ],
+          "expect_detection": true
+        },
+        {
+          "name": "offset_left",
+          "base_xy_yaw": [
+            1.0,
+            0.9,
+            0.1
+          ],
+          "expect_detection": true
+        },
+        {
+          "name": "offset_right",
+          "base_xy_yaw": [
+            1.0,
+            1.8,
+            -0.1
+          ],
+          "expect_detection": true
+        },
+        {
+          "name": "rotated_view",
+          "base_xy_yaw": [
+            0.75,
+            1.4,
+            0.35
+          ],
+          "expect_detection": true
+        },
+        {
+          "name": "fully_occluded",
+          "base_xy_yaw": [
+            0.75,
+            1.4,
+            0.0
+          ],
+          "occluded": true,
+          "expect_detection": false
+        },
+        {
+          "name": "out_of_view",
+          "base_xy_yaw": [
+            0.75,
+            1.4,
+            3.141592653589793
+          ],
+          "expect_detection": false
+        }
+      ],
+      "prediction_before_run": [
+        "The 0.2 m black-border marker should be detected in the five declared visible cases; fully occluded and behind-camera cases must produce no observation.",
+        "The frontal camera depth is 2 m or 1 m, but the marker range from the base is 2.1 m or 1.1 m because camera mounting translation is 0.1 m forward.",
+        "OpenCV camera axes are right/down/forward; MuJoCo render camera axes are right/up/backward. Ignoring their sign change reverses vertical and forward directions.",
+        "Image quantization and corner localization produce nonzero measurement error even with no deliberately added sensor noise."
+      ],
+      "calibration_basis": "Ideal camera intrinsics derived from configured vertical FOV and resolution, zero lens distortion, known project mounting; verified in simulation, not real camera calibration.",
+      "noise": "No extra noise, blur or dropout injection; actual rendering and corner detection errors retained.",
+      "random_seed": null,
+      "scope": "Static perception validation with fixture poses; no EKF or docking controller. Public vision code receives RGB and fixed calibration, never simulator pose.",
+      "additional_markers": [
+        {
+          "dictionary": "DICT_4X4_50",
+          "id": 18,
+          "side_length_m": 0.2,
+          "quiet_margin_m": 0.025,
+          "position_world_m": [
+            2.85,
+            0.8,
+            0.25
+          ]
+        }
+      ]
+    },
+    "saved_metrics": {
+      "feedforward_only": {
+        "mode": "feedforward_only",
+        "position_tracking_rmse_m": 0.5337096237217002,
+        "yaw_tracking_rmse_degrees": 2.7485287560103595,
+        "final_position_error_m": 0.8291470884010761,
+        "final_yaw_error_degrees": 2.2906229372331075,
+        "localization_position_rmse_m": 0.007833335247899925,
+        "filtered_wheel_rate_error_rmse_rad_s": [
+          1.170880823613156,
+          1.1710168573313178
+        ],
+        "actuator_saturated_sample_count": 0,
+        "outer_wheel_limited_sample_count": 0,
+        "max_abs_actuator_command_rad_s": 1.3866666666666667,
+        "stop_tail_max_true_speed_m_s": 6.883512138048217e-07,
+        "stop_tail_max_true_yaw_rate_rad_s": 5.644771720035558e-06,
+        "max_tilt_rad": 0.0010895829644213771,
+        "actual_path_length_m": 0.0020845157464441082,
+        "common_checks": {
+          "actuator_limits": true,
+          "base_upright": true,
+          "physically_stopped": true,
+          "last_targets_zero": true
+        }
+      },
+      "wheel_PI_only": {
+        "mode": "wheel_PI_only",
+        "position_tracking_rmse_m": 0.06528547923705531,
+        "yaw_tracking_rmse_degrees": 2.813145787797558,
+        "final_position_error_m": 0.07765590040635603,
+        "final_yaw_error_degrees": 2.669271826760488,
+        "localization_position_rmse_m": 0.004424064115645784,
+        "filtered_wheel_rate_error_rmse_rad_s": [
+          0.08368512180735703,
+          0.0873392064100971
+        ],
+        "actuator_saturated_sample_count": 0,
+        "outer_wheel_limited_sample_count": 0,
+        "max_abs_actuator_command_rad_s": 3.7705746371897337,
+        "stop_tail_max_true_speed_m_s": 2.491605282978321e-07,
+        "stop_tail_max_true_yaw_rate_rad_s": 8.451145563805561e-06,
+        "max_tilt_rad": 0.0016655613901617218,
+        "actual_path_length_m": 0.754429192693223,
+        "common_checks": {
+          "actuator_limits": true,
+          "base_upright": true,
+          "physically_stopped": true,
+          "last_targets_zero": true
+        }
+      },
+      "pose_feedback": {
+        "mode": "pose_feedback",
+        "position_tracking_rmse_m": 0.01920044791448838,
+        "yaw_tracking_rmse_degrees": 2.914216202679011,
+        "final_position_error_m": 0.004136129306787136,
+        "final_yaw_error_degrees": 0.11091812516450543,
+        "localization_position_rmse_m": 0.0027327495232499564,
+        "filtered_wheel_rate_error_rmse_rad_s": [
+          0.09312419274577316,
+          0.09619547222253617
+        ],
+        "actuator_saturated_sample_count": 0,
+        "outer_wheel_limited_sample_count": 0,
+        "max_abs_actuator_command_rad_s": 4.081991678949268,
+        "stop_tail_max_true_speed_m_s": 1.961207430489114e-07,
+        "stop_tail_max_true_yaw_rate_rad_s": 5.251592557889697e-06,
+        "max_tilt_rad": 0.0017286609178464145,
+        "actual_path_length_m": 0.82922680316132,
+        "common_checks": {
+          "actuator_limits": true,
+          "base_upright": true,
+          "physically_stopped": true,
+          "last_targets_zero": true
+        },
+        "feedback_checks": {
+          "position_rmse": true,
+          "final_position": true,
+          "final_yaw": true
+        }
+      }
+    }
+  },
+  "parameters": {
+    "source_run": "results/r03_parameters/20261022T171442Z-393a23b0",
+    "camera_scope": "36 deterministic rendered fixtures, nine views per world-x separation. Not radial range, physical-camera calibration, independent task trials or repeated noise samples.",
+    "camera_saved_summary": [
+      {
+        "station_x_separation_m": 0.55,
+        "valid": 9,
+        "max_position_error_mm": 0.8815359256370857,
+        "position_RMSE_mm": 0.5873826412283479,
+        "mean_signed_error_m_m_rad": [
+          -0.00031004732686949293,
+          9.635812256680865e-05,
+          -0.0001750345173444264
+        ],
+        "max_abs_yaw_error_degrees": 0.061985825151588306,
+        "samples_inside_design_ellipsoid": 9
+      },
+      {
+        "station_x_separation_m": 0.85,
+        "valid": 9,
+        "max_position_error_mm": 7.651044709805904,
+        "position_RMSE_mm": 4.3575103037021705,
+        "mean_signed_error_m_m_rad": [
+          -0.00045597207767893936,
+          -7.780737072332005e-05,
+          7.500329522382011e-05
+        ],
+        "max_abs_yaw_error_degrees": 0.48716158118157704,
+        "samples_inside_design_ellipsoid": 9
+      },
+      {
+        "station_x_separation_m": 1.3,
+        "valid": 9,
+        "max_position_error_mm": 27.26389205779236,
+        "position_RMSE_mm": 16.256692600250613,
+        "mean_signed_error_m_m_rad": [
+          -0.0009292076278949333,
+          -0.0008355297376523543,
+          0.0006238724479378356
+        ],
+        "max_abs_yaw_error_degrees": 1.1855529308599073,
+        "samples_inside_design_ellipsoid": 9
+      },
+      {
+        "station_x_separation_m": 2.0,
+        "valid": 9,
+        "max_position_error_mm": 75.28574446053952,
+        "position_RMSE_mm": 43.83782201441203,
+        "mean_signed_error_m_m_rad": [
+          -0.00452532738243182,
+          0.003121219242375196,
+          -0.0015723317824907707
+        ],
+        "max_abs_yaw_error_degrees": 2.140453939697633,
+        "samples_inside_design_ellipsoid": 9
+      }
+    ],
+    "camera_intrinsics": [
+      [
+        623.5382907247958,
+        0.0,
+        479.5
+      ],
+      [
+        0.0,
+        623.5382907247958,
+        359.5
+      ],
+      [
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "camera_effective_config": {
+      "lidar_config": "configs/lidar_check.json",
+      "camera": {
+        "name": "front_camera",
+        "width": 960,
+        "height": 720,
+        "fovy_degrees": 60.0,
+        "position_in_base_m": [
+          0.1,
+          0.0,
+          0.17
+        ]
+      },
+      "marker": {
+        "dictionary": "DICT_4X4_50",
+        "id": 17,
+        "side_length_m": 0.2,
+        "quiet_margin_m": 0.025,
+        "position_world_m": [
+          2.85,
+          1.4,
+          0.25
+        ]
+      },
+      "quality": {
+        "max_reprojection_rmse_px": 1.5,
+        "min_marker_side_px": 20.0,
+        "range_min_m": 0.25,
+        "range_max_m": 5.0
+      },
+      "acceptance": {
+        "range_error_m": 0.06,
+        "bearing_error_degrees": 1.0,
+        "corner_rmse_px": 2.0
+      },
+      "cases": [
+        {
+          "name": "frontal_camera_2m",
+          "base_xy_yaw": [
+            0.75,
+            1.4,
+            0.0
+          ],
+          "expect_detection": true
+        },
+        {
+          "name": "near_camera_1m",
+          "base_xy_yaw": [
+            1.75,
+            1.4,
+            0.0
+          ],
+          "expect_detection": true
+        },
+        {
+          "name": "offset_left",
+          "base_xy_yaw": [
+            1.0,
+            0.9,
+            0.1
+          ],
+          "expect_detection": true
+        },
+        {
+          "name": "offset_right",
+          "base_xy_yaw": [
+            1.0,
+            1.8,
+            -0.1
+          ],
+          "expect_detection": true
+        },
+        {
+          "name": "rotated_view",
+          "base_xy_yaw": [
+            0.75,
+            1.4,
+            0.35
+          ],
+          "expect_detection": true
+        },
+        {
+          "name": "fully_occluded",
+          "base_xy_yaw": [
+            0.75,
+            1.4,
+            0.0
+          ],
+          "occluded": true,
+          "expect_detection": false
+        },
+        {
+          "name": "out_of_view",
+          "base_xy_yaw": [
+            0.75,
+            1.4,
+            3.141592653589793
+          ],
+          "expect_detection": false
+        }
+      ],
+      "prediction_before_run": [
+        "The 0.2 m black-border marker should be detected in the five declared visible cases; fully occluded and behind-camera cases must produce no observation.",
+        "The frontal camera depth is 2 m or 1 m, but the marker range from the base is 2.1 m or 1.1 m because camera mounting translation is 0.1 m forward.",
+        "OpenCV camera axes are right/down/forward; MuJoCo render camera axes are right/up/backward. Ignoring their sign change reverses vertical and forward directions.",
+        "Image quantization and corner localization produce nonzero measurement error even with no deliberately added sensor noise."
+      ],
+      "calibration_basis": "Ideal camera intrinsics derived from configured vertical FOV and resolution, zero lens distortion, known project mounting; verified in simulation, not real camera calibration.",
+      "noise": "No extra noise, blur or dropout injection; actual rendering and corner detection errors retained.",
+      "random_seed": null,
+      "scope": "Static perception validation with fixture poses; no EKF or docking controller. Public vision code receives RGB and fixed calibration, never simulator pose.",
+      "additional_markers": [
+        {
+          "dictionary": "DICT_4X4_50",
+          "id": 18,
+          "side_length_m": 0.2,
+          "quiet_margin_m": 0.025,
+          "position_world_m": [
+            2.85,
+            0.8,
+            0.25
+          ]
+        }
+      ]
+    },
+    "replay_scope": "15 conditional fixed-input estimator replays (3 recorded trials x 5 filter weights), with fixed recovery schedule. Metrics replot saved replay summaries; replay execution is not reproduced by this entry. Not closed-loop task success evidence.",
+    "filter_variants": [
+      {
+        "id": "baseline",
+        "Q_model_variance_multiplier": 1,
+        "visual_R_variance_multiplier": 1
+      },
+      {
+        "id": "Q_model_quarter",
+        "Q_model_variance_multiplier": 0.25,
+        "visual_R_variance_multiplier": 1
+      },
+      {
+        "id": "Q_model_four",
+        "Q_model_variance_multiplier": 4,
+        "visual_R_variance_multiplier": 1
+      },
+      {
+        "id": "R_quarter",
+        "Q_model_variance_multiplier": 1,
+        "visual_R_variance_multiplier": 0.25
+      },
+      {
+        "id": "R_four",
+        "Q_model_variance_multiplier": 1,
+        "visual_R_variance_multiplier": 4
+      }
+    ],
+    "gain_scope": "Existing T08 development baseline plus two physical terminal-gain variants. Identical pre-handoff records were checked in the original study; no independent reliability rate or global stability claim.",
+    "goal_pose_m_m_rad": [
+      2.3,
+      1.4,
+      0.0
+    ],
+    "gain_saved_metrics": [
+      {
+        "variant": "rho_half",
+        "k_rho_per_s": 0.125,
+        "ideal_rho_pole_per_s": -0.125,
+        "ideal_angle_poles_per_s": [
+          [
+            -0.6356715110469141,
+            0.0
+          ],
+          [
+            -0.03932848895308593,
+            0.0
+          ]
+        ],
+        "metrics": {
+          "final_position_error_m": 0.011564043403284274,
+          "final_yaw_error_degrees": 0.40475234641142277,
+          "position_localization_rmse_m": 0.053537673978435785,
+          "actual_path_length_m": 2.4064178038221566,
+          "elapsed_seconds": 138.05,
+          "min_signed_geom_clearance_m": 0.17574475340784612,
+          "stop_tail_max_true_speed_m_s": 9.939205579789232e-07,
+          "stop_tail_max_true_yaw_rate_rad_s": 3.937458427584337e-06,
+          "max_abs_actuator_command_rad_s": 5.730772144945952,
+          "obstacle_contact_physics_steps": 0,
+          "planning_events": 47,
+          "successful_plans": 36,
+          "max_true_y_m": 1.8298772868484974,
+          "max_estimated_y_m": 1.9837664645423456,
+          "docking_handoff_elapsed_s": 85.2,
+          "terminal_seconds": 52.85000000000001
+        },
+        "pre_handoff_measured_EKF_RGB_equal_to_baseline": true
+      },
+      {
+        "variant": "nominal",
+        "k_rho_per_s": 0.25,
+        "ideal_rho_pole_per_s": -0.25,
+        "ideal_angle_poles_per_s": [
+          [
+            -0.4350781059358213,
+            0.0
+          ],
+          [
+            -0.11492189406417877,
+            0.0
+          ]
+        ],
+        "metrics": {
+          "final_position_error_m": 0.0116110560773921,
+          "final_yaw_error_degrees": 0.19079453269957528,
+          "position_localization_rmse_m": 0.05765131040385936,
+          "actual_path_length_m": 2.40296099529199,
+          "elapsed_seconds": 119.05,
+          "min_signed_geom_clearance_m": 0.17574475340784612,
+          "stop_tail_max_true_speed_m_s": 7.923492525529292e-07,
+          "stop_tail_max_true_yaw_rate_rad_s": 6.055137497193258e-06,
+          "max_abs_actuator_command_rad_s": 5.730772144945952,
+          "obstacle_contact_physics_steps": 0,
+          "planning_events": 47,
+          "successful_plans": 36,
+          "max_true_y_m": 1.8298772868484974,
+          "max_estimated_y_m": 1.9837664645423456,
+          "docking_handoff_elapsed_s": 85.2,
+          "terminal_seconds": 33.849999999999994
+        },
+        "pre_handoff_measured_EKF_RGB_equal_to_baseline": true
+      },
+      {
+        "variant": "rho_double",
+        "k_rho_per_s": 0.5,
+        "ideal_rho_pole_per_s": -0.5,
+        "ideal_angle_poles_per_s": [
+          [
+            -0.15000000000000002,
+            0.2783882181415011
+          ],
+          [
+            -0.15000000000000002,
+            -0.2783882181415011
+          ]
+        ],
+        "metrics": {
+          "final_position_error_m": 0.01168881404088071,
+          "final_yaw_error_degrees": 0.9948883683092541,
+          "position_localization_rmse_m": 0.05908301100473605,
+          "actual_path_length_m": 2.4067057061819983,
+          "elapsed_seconds": 113.35000000000001,
+          "min_signed_geom_clearance_m": 0.17574475340784612,
+          "stop_tail_max_true_speed_m_s": 3.095805222080996e-07,
+          "stop_tail_max_true_yaw_rate_rad_s": 1.2511673607976279e-05,
+          "max_abs_actuator_command_rad_s": 5.730772144945952,
+          "obstacle_contact_physics_steps": 0,
+          "planning_events": 47,
+          "successful_plans": 36,
+          "max_true_y_m": 1.8298772868484974,
+          "max_estimated_y_m": 1.9837664645423456,
+          "docking_handoff_elapsed_s": 85.2,
+          "terminal_seconds": 28.150000000000006
+        },
+        "pre_handoff_measured_EKF_RGB_equal_to_baseline": true
+      }
+    ]
+  },
+  "recovery": {
+    "scope": "Original development seed 4102008 reused across versions. Original and v1 timeouts retained. Not independent reliability samples; final R04 batch is separate and its new no-path branch triggered zero times.",
+    "goal_pose_m_m_rad": [
+      2.3,
+      1.4,
+      0.0
+    ],
+    "clearance_scope": "Signed physical geometry separation sampled at LiDAR times, held between scans and capped at 0.5 m. Contact counts checked at physics steps in original evaluation; not recomputed from the CSV subsets.",
+    "cases": {
+      "original": {
+        "source_run": "results/r01_t08/20261022T160150Z-fb8ccc77/appearing_obstacle",
+        "outcome": "timeout",
+        "saved_metrics": {
+          "final_position_error_m": 1.0113904202884945,
+          "final_yaw_error_degrees": 2.4635968260594328,
+          "position_localization_rmse_m": 0.1198946766860899,
+          "actual_path_length_m": 0.8837227507642901,
+          "elapsed_seconds": 180.0,
+          "min_signed_geom_clearance_m": 0.18277749766728232,
+          "stop_tail_max_true_speed_m_s": 7.163072633936782e-07,
+          "stop_tail_max_true_yaw_rate_rad_s": 3.8301381798545255e-06,
+          "max_abs_actuator_command_rad_s": 5.730772144945952,
+          "obstacle_contact_physics_steps": 0,
+          "planning_events": 327,
+          "successful_plans": 25,
+          "max_true_y_m": 1.8324029678170788,
+          "max_estimated_y_m": 1.9837664645423456,
+          "docking_handoff_elapsed_s": null,
+          "terminal_seconds": null
+        }
+      },
+      "v1": {
+        "source_run": "results/r02_recovery/20261022T163746Z-4d59ec19/trials/T08/appearing_obstacle",
+        "outcome": "timeout",
+        "saved_metrics": {
+          "final_position_error_m": 1.0963996840461376,
+          "final_yaw_error_degrees": 8.139981839129943,
+          "position_localization_rmse_m": 0.04837139087146478,
+          "actual_path_length_m": 0.7875267429303305,
+          "elapsed_seconds": 180.0,
+          "min_signed_geom_clearance_m": 0.20858822705944483,
+          "stop_tail_max_true_speed_m_s": 9.290714098372576e-06,
+          "stop_tail_max_true_yaw_rate_rad_s": 8.552843529272266e-06,
+          "max_abs_actuator_command_rad_s": 5.730772144945952,
+          "obstacle_contact_physics_steps": 0,
+          "planning_events": 95,
+          "successful_plans": 26,
+          "max_true_y_m": 1.826108993537918,
+          "max_estimated_y_m": 1.9837664645423456,
+          "docking_handoff_elapsed_s": null,
+          "terminal_seconds": null
+        }
+      },
+      "v2": {
+        "source_run": "results/r02_recovery/20261022T164114Z-8a900c52/trials/T08/appearing_obstacle",
+        "outcome": "success",
+        "saved_metrics": {
+          "final_position_error_m": 0.0116110560773921,
+          "final_yaw_error_degrees": 0.19079453269957528,
+          "position_localization_rmse_m": 0.05765131040385936,
+          "actual_path_length_m": 2.40296099529199,
+          "elapsed_seconds": 119.05,
+          "min_signed_geom_clearance_m": 0.17574475340784612,
+          "stop_tail_max_true_speed_m_s": 7.923492525529292e-07,
+          "stop_tail_max_true_yaw_rate_rad_s": 6.055137497193258e-06,
+          "max_abs_actuator_command_rad_s": 5.730772144945952,
+          "obstacle_contact_physics_steps": 0,
+          "planning_events": 47,
+          "successful_plans": 36,
+          "max_true_y_m": 1.8298772868484974,
+          "max_estimated_y_m": 1.9837664645423456,
+          "docking_handoff_elapsed_s": 85.2,
+          "terminal_seconds": 33.849999999999994
+        }
+      }
+    },
+    "events": [
+      {
+        "elapsed_s": 29.049999999994224,
+        "event": "attempt_started"
+      },
+      {
+        "elapsed_s": 29.59999999999392,
+        "event": "confirmed_oriented_pose_recovery"
+      },
+      {
+        "elapsed_s": 46.1000000000116,
+        "event": "attempt_started"
+      },
+      {
+        "elapsed_s": 46.60000000001221,
+        "event": "confirmed_oriented_pose_recovery"
+      }
+    ]
+  },
+  "final_batch": {
+    "source_run": "results/r04_robustness/20261022T175606Z-e768374b",
+    "protocol": {
+      "protocol_version": "2026-10-23-r04-v2-recovery",
+      "baseline_config": "configs/docking_check.json",
+      "baseline_evidence": "results/r02_recovery/20261022T164114Z-8a900c52",
+      "replicates_per_cell": 3,
+      "seed_start": 4104001,
+      "max_seconds_per_trial": 180.0,
+      "workers": 2,
+      "starts": [
+        {
+          "id": "start_A",
+          "pose_m_m_rad": [
+            0.72,
+            1.36,
+            0.04
+          ]
+        },
+        {
+          "id": "start_B",
+          "pose_m_m_rad": [
+            0.6,
+            1.48,
+            -0.06
+          ]
+        }
+      ],
+      "conditions": [
+        {
+          "id": "nominal",
+          "case_from_baseline": "normal_room",
+          "encoder_variance_multiplier": 1.0
+        },
+        {
+          "id": "appearing_obstacle",
+          "case_from_baseline": "appearing_obstacle",
+          "encoder_variance_multiplier": 1.0
+        },
+        {
+          "id": "dock_visual_blackout",
+          "case_from_baseline": "dock_visual_blackout",
+          "encoder_variance_multiplier": 1.0
+        },
+        {
+          "id": "encoder_noise_x4",
+          "case_from_baseline": "normal_room",
+          "encoder_variance_multiplier": 4.0
+        }
+      ],
+      "success_definition": "All unchanged docking_check.evaluate_case checks must pass: declared dock reached, truth <=0.025m and <=3deg, physical stop, zero obstacle contacts, sampled clearance >=0.01m, actuator limit; scenario-specific detour/blackout checks also apply.",
+      "failure_policy": "One planned first attempt per trial. Initial image failure, timeout, acceptance failure, collision or execution exception remains in the denominator. Never retry to replace a failure, drop a difficult seed, tune algorithms during the batch, or add past demonstration runs to the sample.",
+      "statistics": "Report counts for each of 8 fixed condition/start cells (n=3). Wilson 95% intervals only within complete cells under independent Bernoulli simulation-noise assumptions; small n yields wide approximate intervals. Per-condition n=6 and overall n=24 are descriptive balanced-matrix fractions, not one IID population probability or real-world reliability. Pending trials mean incomplete experiment, not publishable final rate.",
+      "predictions_before_run": [
+        "Two declared starts should initially see both mapped markers; failure to initialize counts as a failed trial, with no true-pose fallback.",
+        "The appearing board may trigger stationary full-oriented-pose recovery and map reconstruction; known-free subgoals may help observe a previously unknown goal region. Recovery is bounded, and failures remain in the denominator.",
+        "The actual one-second terminal blackout should cause image-pose timeout and zero command, then resume only after a fresh accepted pose; physical stopping is evaluated separately.",
+        "Encoder motion and idle variance are both multiplied by four (standard deviation by two) in the stress condition. Estimator Q, image R, gains and gates stay baseline, deliberately testing noise-model mismatch.",
+        "All 24 distinct PCG64 seeds are fixed before physics; every trial loads a fresh model, estimator and sensor. No shared random prefix is deliberately reused across trials.",
+        "No tuning, tolerance changes or selective reruns during this evaluation. Failure diagnosis may motivate a later separately registered development batch.",
+        "This new seed range is checked against saved prior run/protocol/trial metadata before registration. R02/R03 development trials and old23/24 are never added to this denominator; no causal paired comparison is claimed because seeds differ."
+      ],
+      "scope": "Finite, predeclared simulation matrix for continuous navigation and noncontact visual pose docking. Ideal lidar, rendered camera, synthetic incremental encoder noise. Does not calibrate real sensors, prove global safety, or measure electrical charging. R04 new-seed evaluation of frozen R02 stationary recovery and known-free subgoal implementation, retaining R03 nominal parameters. Separate from the old matrix and all development checks.",
+      "candidate_reference_protocol": "results/r03_parameters/20261022T171442Z-393a23b0/protocol.json"
+    },
+    "saved_overall": {
+      "planned": 24,
+      "attempted": 24,
+      "pending": 0,
+      "successes": 24,
+      "outcome_counts": {
+        "success": 24
+      },
+      "empirical_fraction": 1.0,
+      "wilson_95": null
+    },
+    "scope": "Aggregate the supplied evaluation/E_Integration_Robustness/data/trial_metrics.csv only. Preserve all 24 first attempts. Success labels and collision counts come from original evaluations, not independent raw-log reauditing. Not general reliability or a new experiment.",
+    "branch_coverage": "New no-path recovery: zero activations. Pre-existing pair recovery: once in each of six obstacle trials."
+  },
+  "modelling": {
+    "source_run": "results/stage4_model/20261021T164906Z-be90bfee",
+    "data": "A_Modelling/data/model_analysis.json",
+    "figure": "A_Modelling/figures/observability.png",
+    "scope": "Preserved early mathematical model analysis and synthetic observability counterexample. Not a new physical experiment. The B-E offline entry does not rerun this original model-analysis driver.",
+    "runtime_source": "evaluation/A_Modelling/code/state_model.py"
+  },
+  "organisation": {
+    "base": "evaluation/",
+    "parts": {
+      "A": "A_Modelling",
+      "B": "B_Sensing",
+      "C": "C_Estimation",
+      "D": "D_Control",
+      "E": "E_Integration_Robustness"
+    },
+    "common_analysis_entry": "analysis/analyze_results.py",
+    "shared_nominal_gain_trajectory": "E_Integration_Robustness/data/recovery_v2.csv",
+    "shared_metadata": "experiments.json"
+  }
+}

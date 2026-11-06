@@ -1,0 +1,25 @@
+{
+  "ekf_config": "configs/ekf_check.json",
+  "tracking_config": "configs/tracking_check.json",
+  "initial_true_pose_m_m_rad": [0.72, 1.36, 0.04],
+  "encoder_seed": 4101801,
+  "max_seconds_per_case": 120.0,
+  "lidar_rate_hz": 10.0,
+  "control_rate_hz": 20.0,
+  "pair_recovery": {"consecutive_frames": 3, "min_seconds_without_accepted_update": 1.0, "max_frame_gap_s": 0.25, "max_candidate_step_m": 0.06, "max_candidate_step_rad": 0.06, "max_baseline_relative_error": 0.05},
+  "grid": {"origin_xy_m": [-3.0, -2.5], "size_xy_m": [6.0, 5.0], "resolution_m": 0.05, "lidar_mount_xy_m": [-0.049, 0.0], "robot_radius_m": 0.25, "clearance_margin_m": 0.06},
+  "navigator": {"goal_pose_m_m_rad": [2.25, 1.4, 0.0], "plan_check_period_s": 0.5, "waypoint_tolerance_m": 0.065, "goal_tolerance_m": 0.06, "goal_yaw_tolerance_rad": 0.06, "goal_hold_s": 2.0, "cruise_m_s": 0.045, "max_omega_rad_s": 0.22, "drive_heading_limit_rad": 0.22, "heading_gain_per_s": 1.4, "distance_gain_per_s": 0.8, "max_desired_wheel_rad_s": 2.2, "max_scan_age_s": 0.25, "max_position_std_m": 0.25, "max_yaw_std_rad": 0.25, "guard_horizon_s": 0.6, "guard_radius_m": 0.285},
+  "cases": [
+    {"name": "normal_room", "obstacle_appears_at_s": null},
+    {"name": "appearing_obstacle", "obstacle_appears_at_s": 2.0, "obstacle_position_world_m": [1.5, 1.15, 0.35]}
+  ],
+  "checks": {"max_final_position_error_m": 0.09, "max_final_yaw_error_degrees": 5.0, "max_stop_true_speed_m_s": 0.005, "max_stop_true_yaw_rate_rad_s": 0.02, "min_signed_geom_clearance_m": 0.01},
+  "prediction_before_run": [
+    "The initially unknown grid is built only from local lidar and estimated pose; room extent is a declared grid bound, not a truth obstacle map.",
+    "Normal room should permit a direct route to the pre-docking goal; the appearing board should invalidate the direct route and cause a detour planned from scans.",
+    "Unknown cells and diagonal corner cutting are blocked; circle footprint, margin and cell half diagonal are included in inflation.",
+    "Stale scans, no known-free route, excessive pose covariance or an unsafe local scanned sweep must send zero targets.",
+    "Navigation should end near the approach goal and hold still, with truth used only to evaluate pose, clearance and contacts. This does not claim terminal visual docking."
+  ],
+  "scope": "Two sensor-driven navigation module scenarios with ideal lidar, noisy encoders and actual image detections. Reuses EKF, wheel mapping and wheel PI; waypoint heading/distance feedback replaces a fixed time trajectory. No SLAM pose correction, final charging pose, full-task success rate or physical uncertainty calibration."
+}

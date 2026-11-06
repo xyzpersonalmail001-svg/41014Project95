@@ -1,0 +1,28 @@
+{
+  "scene": "scenes/room.xml",
+  "site_name": "lidar_site",
+  "sensor_position_in_base_m": [-0.049, 0.0, 0.17],
+  "sensor_quaternion_in_base_wxyz": [1.0, 0.0, 0.0, 0.0],
+  "robot_geom_group": 1,
+  "lidar": {"beam_count": 360, "angle_start_rad": -3.141592653589793, "range_min_m": 0.05, "range_max_m": 4.0},
+  "static_cases": [
+    {"name": "origin", "base_xy_yaw": [0.0, 0.0, 0.0]},
+    {"name": "yaw_90", "base_xy_yaw": [0.0, 0.0, 1.5707963267948966]},
+    {"name": "translated_rotated", "base_xy_yaw": [-1.0, -1.0, 0.5235987755982988]},
+    {"name": "near_corner", "base_xy_yaw": [-2.2, -1.6, -0.5235987755982988]}
+  ],
+  "geometry_tolerance_m": 0.00000001,
+  "physics_seconds": 2.0,
+  "settle_seconds": 1.0,
+  "scan_rate_hz": 10.0,
+  "prediction_before_run": [
+    "At base pose (0,0,0), front range is 1.049 m to box_front; left is 2.5 m, back is 2.951 m, right is 2.5 m.",
+    "At base yaw +90 deg, the local front points toward world +Y and range becomes 2.549 m because the sensor offset rotates with the base.",
+    "The first visible surface occludes surfaces behind it. Robot and child wheel geometry must not appear as returns.",
+    "All ideal rays should agree with independent box/cylinder/plane intersections within 1e-8 m; no-return and too-close status must also agree."
+  ],
+  "parameter_basis": "Project-selected ideal scanner: 360 beams, 1 deg spacing, 0.05-4 m range, 10 Hz instantaneous scans; not hardware calibration or a named LiDAR specification.",
+  "noise": "None; no dropout, intensity, rolling scan timing or motion distortion.",
+  "random_seed": null,
+  "truth_boundary": "Sensor generation uses simulator site transforms internally. Public scan contains only time, frame, angles, ranges and status; world pose and geom IDs are separate evaluation diagnostics."
+}

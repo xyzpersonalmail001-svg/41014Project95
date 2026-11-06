@@ -1,0 +1,33 @@
+{
+  "navigation_config": "configs/navigation_check.json",
+  "encoder_seed": 4101901,
+  "frontier_recovery": {"max_subgoal_step_m":0.45,"max_subgoal_path_m":0.65,"min_goal_progress_m":0.1,"max_candidates":64},
+  "no_path_recovery": {"persistent_stop_s":2.0,"settle_stop_s":0.3,"attempt_timeout_s":6.0,"cooldown_s":2.0,"max_attempts":3,"consecutive_frames":3,"max_frame_gap_s":0.25,"max_candidate_step_m":0.03,"max_candidate_step_rad":0.04,"max_scan_age_s":0.25,"max_stationary_wheel_rad_s":0.15,"max_pose_position_std_m":0.08,"max_pose_yaw_std_rad":0.08,"max_reanchor_position_m":0.4,"max_reanchor_yaw_rad":0.35},
+  "max_seconds_per_case": 180.0,
+  "camera_mount_override_m": [0.1,0.0,0.17],
+  "station": {"marker_id":17,"origin_world_m":[2.85,1.4,0.25],"yaw_world_rad":0.0,"marker_rotation_world":[[0,0,-1],[-1,0,0],[0,1,0]],"goal_offset_m_m_rad":[-0.55,0.0,0.0]},
+  "pose_measurement": {"corner_std_px":0.5,"corner_difference_step_px":0.05,"pose_floor_std_m_m_rad":[0.005,0.005,0.015],"max_image_tilt_rad":0.15,"max_image_base_height_m":0.08,"nis_limit_3d":11.344866730144373},
+  "controller": {"k_rho_per_s":0.25,"k_alpha_per_s":0.8,"k_beta_magnitude_per_s":0.2,"alignment_gain_per_s":1.0,"max_v_m_s":0.025,"max_omega_rad_s":0.18,"drive_heading_limit_rad":0.6,"position_tolerance_m":0.012,"yaw_tolerance_rad":0.025,"hold_seconds":2.0,"max_pose_age_s":0.25,"max_scan_age_s":0.25,"max_position_std_m":0.15,"max_yaw_std_rad":0.15,"guard_horizon_s":0.6,"guard_radius_m":0.285,"max_desired_wheel_rad_s":1.6,"retreat_distance_m":0.30,"retreat_lateral_trigger_m":0.018,"retreat_yaw_trigger_rad":0.15,"retreat_position_tolerance_m":0.02,"retreat_yaw_tolerance_rad":0.05,"max_station_bearing_rad":0.35,"bearing_horizon_s":0.6},
+  "image_validation_cases": [
+    {"name":"approach_center","base_xy_yaw":[2.2,1.4,0.0]},
+    {"name":"approach_offset","base_xy_yaw":[2.2,1.44,0.08]},
+    {"name":"dock_center","base_xy_yaw":[2.30,1.4,0.0]},
+    {"name":"dock_offset","base_xy_yaw":[2.28,1.37,-0.06]}
+  ],
+  "cases": [
+    {"name":"normal_room","obstacle_appears_at_s":null,"dock_blackout_interval_s":null},
+    {"name":"appearing_obstacle","obstacle_appears_at_s":2.0,"obstacle_position_world_m":[1.5,1.15,0.35],"dock_blackout_interval_s":null},
+    {"name":"dock_visual_blackout","obstacle_appears_at_s":null,"dock_blackout_interval_s":[0.5,1.5],"blackout_board_world_m":[2.6,1.4,0.35]}
+  ],
+  "checks": {"max_final_position_error_m":0.025,"max_final_yaw_error_degrees":3.0,"max_stop_true_speed_m_s":0.005,"max_stop_true_yaw_rate_rad_s":0.02,"min_signed_geom_clearance_m":0.01,"static_image_position_m":0.04,"static_image_yaw_degrees":3.0},
+  "prediction_before_run": [
+    "A known oriented primary marker gives a full image-derived planar pose (H=I), unlike its centre range/bearing alone. Verify actual rendered close-up images before controller trials.",
+    "Actual prechecks at original camera z=0.12 m failed at 0.50 m (clipped board) and 0.55 m (raw detector found no ID despite visible black square). Keep revised 0.55 m goal and raise the declared camera mounting to z=0.17 m to provide vertical margin, then revalidate actual images. Truth tolerances remain 0.025 m / 3 deg. Virtual pose docking, not electrical contact.",
+    "Run navigation and docking continuously without teleport/reset at handoff, preserving encoder/EKF state. One RGB frame uses either navigation range/bearing or docking pose, never both.",
+    "A new accepted full-pose image is required after handoff. If it becomes stale for over 0.25 s, command zero and reset hold; fresh accepted imagery permits resumption.",
+    "Polar pose feedback is local, with bounded speed and scan guard; completion requires pose tolerance and 2 s hold, then independent truth and contacts evaluation.",
+    "The first physical appearing-obstacle case stopped after losing the primary during lateral correction. Add an estimate-triggered 0.30 m retreat staging pose and a predicted station-bearing limit before the next trial; keep original gains, speed limits, NIS and success tolerances.",
+    "Keep all failures and model/calibration limitations. These three configured tasks are not a statistical success rate or full robustness assessment."
+  ],
+  "scope":"Continuous lidar navigation to approach followed by image-pose EKF and terminal pose docking in MuJoCo; actual rendered images, noisy encoders, ideal lidar. No physical charging/contact mechanism or calibrated real-world uncertainty."
+}

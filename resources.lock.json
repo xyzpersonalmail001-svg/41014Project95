@@ -1,0 +1,17 @@
+{
+  "robotis": {
+    "url": "https://github.com/ROBOTIS-GIT/robotis_mujoco_menagerie.git",
+    "commit": "d8344c0dbe7a00208d0301111523dde65efc174a",
+    "directory": "external/robotis_mujoco_menagerie",
+    "sparse_paths": ["robotis_tb3"],
+    "scene": "robotis_tb3/scene_turtlebot3_waffle_pi.xml",
+    "license": "robotis_tb3/LICENSE"
+  },
+  "teacher_tutorial": {
+    "url": "https://github.com/rFalque/mujoco_UR3_tutorial.git",
+    "commit": "c9447efeec3a0993e458ba1e678f3900967b7ed6",
+    "directory": "external/mujoco_UR3_tutorial",
+    "sparse_paths": [],
+    "usage": "Read-only reference for virtual environment, model loading and passive viewer. UR3 arm control is not a TurtleBot wheel controller."
+  }
+}

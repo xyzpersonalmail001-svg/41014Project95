@@ -104,4 +104,3 @@ Original third-party licence files are retained in `third_party/`.
 Robot XML and STL assets come from ROBOTIS TurtleBot3 MuJoCo at the version specified in `resources.lock.json`. The project derives scenes from these assets in memory at runtime. The original Apache-2.0 licence is retained in `third_party/robotis/LICENSE`.
 
 ArUco detection, corner refinement, PnP and reprojection use the OpenCV distribution. Its original notices are retained in `third_party/opencv/LICENSE.txt` and `third_party/opencv/LICENSE-3RD-PARTY.txt`. NumPy, MuJoCo, Matplotlib, Pillow and other dependencies are installed at specified versions; the installed environment and dependency binaries are not bundled.
-
